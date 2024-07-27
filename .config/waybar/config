@@ -7,27 +7,30 @@
     "ipc": true,
     // Choose the order of the modules
     "modules-left": [
+        "custom/launcher",
         "hyprland/workspaces",
+        "clock",
         "custom/recorder",
-        "sway/mode",
-        "sway/scratchpad",
-        "custom/media",
+        //"keyboard-state",
+        //"hyprland/language",
+        //"hyprland/submap",
+        //"sway/mode",
+        //"sway/scratchpad",
+        //"custom/media",
         "hyprland/window"
     ],
     //"modules-center": 
     "modules-right": [
-        "mpd",
-        "idle_inhibitor",
+        //"mpd",
         "pulseaudio",
         "network",
         "cpu",
         "memory",
         "backlight",
-        "keyboard-state",
-        "sway/language",
         "battery",
-        "clock",
+        "idle_inhibitor",
         "custom/notification",
+        "custom/exit",
         "tray"
     ],
     // Modules configuration
@@ -83,6 +86,14 @@
         "tooltip": true,
         "tooltip-format": "{app}: {title}"
     },
+    "hyprland/language": {
+        "format": "{}",
+        "max-length": 4
+    },
+    "hyprland/submap": {
+        "format": "{}",
+        "max-length": 8
+    },
     "mpd": {
         "format": "{stateIcon} {consumeIcon}{randomIcon}{repeatIcon}{singleIcon}{artist} - {album} - {title} ({elapsedTime:%M:%S}/{totalTime:%M:%S}) ⸨{songPosition}|{queueLength}⸩ {volume}% 󰎆",
         "format-disconnected": "Disconnected 󰎆",
@@ -122,8 +133,9 @@
     },
     "clock": {
         "timezone": "Asia/Makassar",
-        "tooltip-format": "<big>{:%a, %d %b %Y}</big>\n<tt><small>{calendar}</small></tt>",
-        "format-alt": "{:%d-%m-%Y}"
+        "tooltip-format": "<big>{:%a, %d %b %Y - %R}</big>\n<tt><small>{calendar}</small></tt>",
+        "format": "{:%a, %d %b - %R}",
+        "format-alt": "{:%A, %d %B %Y}"
     },
     "cpu": {
         "format": "{usage}% 󰍛",
@@ -184,12 +196,12 @@
     },
     "network": {
         // "interface": "wlp2*", // (Optional) To force the use of this interface
-        "format-wifi": "{essid} ({signalStrength}%) ",
+        "format-wifi": "{signalStrength}% ",
         "format-ethernet": "{ipaddr}/{cidr} 󰒪",
         "tooltip-format": "{ifname} via {gwaddr} 󰯎",
         "format-linked": "{ifname} (No IP) 󰯎",
         "format-disconnected": "󰕑",
-        "format-alt": "{ifname}: {ipaddr}/{cidr}"
+        "format-alt": "{ifname}: {essid}"
     },
     "pulseaudio": {
         "format": "{volume}% {icon} {format_source}",
@@ -230,7 +242,6 @@
         // "exec": "$HOME/.config/waybar/mediaplayer.py --player spotify 2> /dev/null" // Filter player based on name
     },
     "custom/notification": {
-        "tooltip": true,
         "format": "{icon}",
         "format-icons": {
             "notification": "󰂚<span foreground='red'><sup></sup></span>",
@@ -246,13 +257,28 @@
         "exec": "swaync-client -swb",
         "on-click": "swaync-client -cp -sw",
         "on-click-right": "swaync-client -op -sw",
-        "escape": true
+        "escape": true,
+        "tooltip": false
     },
     "custom/recorder": {
-	"format": "",
-	"return-type": "json",
-	"interval": 1,
-	"exec": "echo '{\"class\": \"recording\"}'",
-	"exec-if": "pgrep wf-recorder"
+        "format": "",
+        "return-type": "json",
+        "interval": 1,
+        "exec": "echo '{\"class\": \"recording\"}'",
+        "exec-if": "pgrep wf-recorder"
+    },
+    "custom/launcher": {
+        "format": "",
+        "return-type": "json",
+        "on-click": "rofi -show drun -show-icons -icon-theme 'Papirus-Dark'",
+        "escape": true,
+        "tooltip": false
+    },
+    "custom/exit": {
+        "format": "",
+        "return-type": "json",
+        "on-click": "wlogout",
+        "escape": true,
+        "tooltip": false
     }
 }
